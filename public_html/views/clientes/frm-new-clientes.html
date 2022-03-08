@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Cliente</title>
+</head>
+<body>
+    <form id="formNuevaCategoria" action="">
+        <div>
+            <label for="txtCodigo">Codigo</label>
+            <input type="text" name="txtCodigo" id="txtCodigo" placeholder="Ingrese Codigo">
+        </div>
+        <div>
+            <label for="txtNombre">Nombre</label>
+            <input type="text" name="txtNombre" id="txtNombre" placeholder="Ingrese Nombre">
+        </div>
+        <div>
+            <label for="txtApellido">Apellido</label>
+            <input type="text" name="txtApellido" id="txtApellido" placeholder="Ingrese Apellido">
+        </div>
+        <div>
+            <label for="txtCorreo_Electronico">Correo Electronico</label>
+            <input type="email" name="txtCorreo_Electronico" id="txtCorreo_Electronico" placeholder="Ingrese Correo Electronico">
+        </div>
+        <div>
+            <label for="txtTelefono">Telefono</label>
+            <input type="text" name="txtTelefono" id="txtTelefono" placeholder="Ingrese Telefono">
+        </div>
+        <div>
+            <button type="submit">Guardar</button>
+        </div>
+    </form>
+        <!-- jQuery -->
+<script src="/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jquery-validation -->
+<script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/assets/plugins/jquery-validation/additional-methods.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/assets/js/adminlte.min.js"></script>
+    <script>
+        $(function () {
+          $.validator.setDefaults({
+            submitHandler: function () {
+              
+              $.ajax({
+                method: "POST",
+                url:"http://daiquiriclub.com/api/clientes",
+                data: { codigo:$("#txtCodigo").val(), nombres:$("#txtNombre").val(),apellidos:$("#txtApellido").val(),correo_electronico:$("#txtCorreo_Electronico").val(),telefono:$("#txtTelefono").val()}
+              })
+              .done(function(msg){
+      
+                $("#txtCodigo").val("");
+                $("#txtNombre").val("");
+                $("#txtApellido").val("");
+                $("#txtCorreo_Electronico").val("");
+                $("#txtTelefono").val("");
+      
+                console.log("el cliente ha sido guardado");
+              });      
+            }
+          });
+          $('#formNuevaCategoria').validate({
+            rules: {
+              txtCodigo: {
+                required: true
+              },
+              txtNombre: {
+                required: true,
+              },
+              txtApellido: {
+                required: true
+              },
+              txtCorreo_Electronico: {
+                required: true
+              },
+              txtTelefono: {
+                required: true
+              }
+            },
+            messages: {
+              txtCodigo: {
+                required: "Ingrese el valor del codigo",
+              },
+              txtNombre: {
+                required: "Ingrese el nombre",
+              },
+              txtApellido: {
+                required: "Ingrese su apellido",
+              },
+              txtCorreo_Electronico: {
+                required: "Ingrese su correo electronico",
+              },
+              txtTelefono: {
+                required: "Ingrese su telefono",
+              }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+              error.addClass('invalid-feedback');
+              element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+              $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+              $(element).removeClass('is-invalid');
+            }
+          });
+        });
+        </script>
+</body>
+</html>

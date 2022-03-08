@@ -1,0 +1,34 @@
+<div id="mdlConfirDelete" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Eliminar categoria</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>¿Está seguro de eliminar el producto?</h6>
+                <button onclick="deleteCategoria()">Sí</button>
+                <button onclick="closeModal()">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function closeModal(){
+        $('#mdlConfirDelete').modal("hide");
+    } 
+    function deleteCategoria(){
+        $.ajax({
+            method: "delete",
+            url:"http://daiquiriclub.com/api/categorias"+ CATEGORIA_TO_DELTE,
+          })
+          .done(function(msg){ 
+
+            $('#mdlConfirDelete').modal("hide");
+            updateDataTable();
+          });    
+    }
+    </script>

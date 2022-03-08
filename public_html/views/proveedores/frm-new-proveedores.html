@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Proveedor</title>
+</head>
+<body>
+    <form id="formNuevoProveedor" action="">
+        <div>
+            <label for="txtCodigo">Codigo</label>
+            <input type="text" name="txtCodigo" id="txtCodigo" placeholder="Ingrese Codigo">
+        </div>
+        <div>
+            <label for="txtRazon_Social">Razon Social</label>
+            <input type="text" name="txtRazon_Social" id="txtRazon_Social" placeholder="Ingrese la razon social">
+        </div>
+        <div>
+            <label for="txtRuc">Ruc</label>
+            <input type="text" name="txtRuc" id="txtRuc" placeholder="Ingrese el Ruc">
+        </div>
+        <div>
+            <label for="txtDireccion">Direccion</label>
+            <input type="text" name="txtDireccion" id="txtDireccion" placeholder="Ingrese la Direccion">
+        </div>
+        <div>
+            <label for="txtCorreo_Electronico">Correo electronico</label>
+            <input type="email" name="txtCorreo_Electronico" id="txtCorreo_Electronico" placeholder="Ingrese su correo electronico">
+        </div>
+        <div>
+            <label for="txtTelefono">Telefono</label>
+            <input type="text" name="txtTelefono" id="txtTelefono" placeholder="Ingrese el telefono">
+        </div>
+        <div>
+            <button type="submit">Guardar</button>
+        </div>
+    </form>
+        <!-- jQuery -->
+<script src="/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jquery-validation -->
+<script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/assets/plugins/jquery-validation/additional-methods.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/assets/js/adminlte.min.js"></script>
+    <script>
+        $(function () {
+          $.validator.setDefaults({
+            submitHandler: function () {
+              
+              $.ajax({
+                method: "POST",
+                url:"http://daiquiriclub.com/api/proveedores",
+                data: { codigo:$("#txtCodigo").val(),razon_social:$("#txtRazon_Social").val(),ruc:$("#txtRuc").val(),direccion:$("#txtDireccion").val(),correo_electronico:$("#txtCorreo_Electronico").val(),telefono:$("#txtTelefono").val()}
+              })
+              .done(function(msg){
+      
+                $("#txtCodigo").val("");
+                $("#txtRazon_Social").val("");
+                $("#txtRuc").val("");
+                $("#txtDireccion").val("");
+                $("#txtCorreo_Electronico").val("");
+                $("#txtTelefono").val("");
+      
+                console.log("el Proveedor ha sido guardado");
+              });      
+            }
+          });
+          $('#formNuevoProveedor').validate({
+            rules: {
+              txtCodigo: {
+                required: true
+              },
+              txtRazon_Social: {
+                required: true,
+              },
+              txtRuc: {
+                required: true
+              },
+              txtDireccion: {
+                required: true
+              },
+              txtCorreo_Electronico: {
+                required: true
+              },
+              txtTelefono: {
+                required: true
+              }
+            },
+            messages: {
+              txtCodigo: {
+                required: "Ingrese el valor del codigo",
+              },
+              txtRazon_Social: {
+                required: "Ingrese la razon social",
+              },
+              txtRuc: {
+                required: "Ingrese el ruc",
+              },
+              txtDireccion: {
+                required: "Ingrese la direccion",
+              },
+              txtCorreo_Electronico: {
+                required: "Ingrese el correo electronico",
+              },
+              txtTelefono: {
+                required: "Ingrese su telefono",
+              }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+              error.addClass('invalid-feedback');
+              element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+              $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+              $(element).removeClass('is-invalid');
+            }
+          });
+        });
+        </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Categoria</title>
+</head>
+<body>
+    <form id="formNuevaCategoria" action="">
+        <div>
+            <label for="txtCodigo">Codigo</label>
+            <input type="text" name="txtCodigo" id="txtCodigo" placeholder="Ingrese Codigo">
+        </div>
+        <div>
+            <label for="txtNombre">Nombre</label>
+            <input type="text" name="txtNombre" id="txtNombre" placeholder="Ingrese Nombre">
+        </div>
+        <div>
+            <button type="submit">Guardar</button>
+        </div>
+    </form>
+        <!-- jQuery -->
+<script src="/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jquery-validation -->
+<script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="/assets/plugins/jquery-validation/additional-methods.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/assets/js/adminlte.min.js"></script>
+    <script>
+        $(function () {
+          $.validator.setDefaults({
+            submitHandler: function () {
+              
+              $.ajax({
+                method: "POST",
+                url:"http://daiquiriclub.com/api/categorias",
+                data: { codigo:$("#txtCodigo").val(), nombre:$("#txtNombre").val()}
+              })
+              .done(function(msg){
+      
+                $("#txtCodigo").val("");
+                $("#txtNombre").val("");
+      
+                console.log("el producto ha sigo guardado");
+              });      
+            }
+          });
+          $('#formNuevaCategoria').validate({
+            rules: {
+              txtCodigo: {
+                required: true
+              },
+              txtNombre: {
+                required: true,
+              }
+            },
+            messages: {
+              txtCodigo: {
+                required: "Ingrese el valor del codigo",
+              },
+              txtNombre: {
+                required: "Ingrese el nombre",
+              }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+              error.addClass('invalid-feedback');
+              element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+              $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+              $(element).removeClass('is-invalid');
+            }
+          });
+        });
+        </script>
+</body>
+</html>
